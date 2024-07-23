@@ -7,7 +7,9 @@ import { ShoppingCartContext } from '../../Context'
 
 const ProductDetail = () => {
     const context = useContext(ShoppingCartContext)
-    let productImage = context.productToShow.images[0].replace('["','').replace('"]','').replace('"','')
+    let productImage = context.productToShow.images
+    let newImage = JSON.parse(productImage)
+    
     return(
         <aside 
             className={ `${context.isProductDetailOpen ? 'flex' : 'hidden'} product-detail flex-col fixed right-0 border-black border rounded-sm bg-white`}>
@@ -21,7 +23,7 @@ const ProductDetail = () => {
                 
             </div>
             <figure>
-                    <img className='w-full h-full rounded-lg px-6' src={productImage} alt={context.productToShow.title} />
+                    <img className='w-full h-full rounded-lg px-6' src={newImage} alt={context.productToShow.title} />
                 </figure>
                 <p className='flex flex-col p-6'>
                     <span className='font-medium text-2xl mb-2'>${context.productToShow.price}</span> 
