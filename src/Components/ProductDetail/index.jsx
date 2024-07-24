@@ -8,7 +8,8 @@ import { ShoppingCartContext } from '../../Context'
 const ProductDetail = () => {
     const context = useContext(ShoppingCartContext)
     let productImage = context.productToShow.images
-    let newImage = JSON.parse(productImage)
+    //let newImage = JSON.parse(productImage)
+    let newImage = productImage
     
     return(
         <aside 
