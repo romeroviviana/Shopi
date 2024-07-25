@@ -6,7 +6,7 @@ import { ShoppingCartContext } from '../../Context'
 const Card = (data) => {
     const context = useContext(ShoppingCartContext)
     let productImage = data.data.images
-    productImage = JSON.parse(productImage)
+    //productImage = JSON.parse(productImage)
 
     const showProduct = (productDetail) => {
         context.openProductDetail()

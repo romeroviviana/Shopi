@@ -15,11 +15,15 @@ export const ShoppingCartProvider = ({ children }) => {
 
     //Shoppi Cart - Add products to cart
     const [cartProducts, setCartProducts ] = useState([])
-
+    
     // Ckeckout Side Menu - open/close
     const [isCheckoutSideMenuOpen, setIsCheckoutSideMenuOpen ] = useState(false)
     const openCheckoutSideMenu = () => setIsCheckoutSideMenuOpen(true)
     const closeCheckoutSideMenu = () => setIsCheckoutSideMenuOpen(false)
+    
+    
+    // Shoppoing Cart . Order
+    const [order, setOrder ] = useState([])
 
     return(
         <ShoppingCartContext.Provider value={{
@@ -35,6 +39,8 @@ export const ShoppingCartProvider = ({ children }) => {
             openCheckoutSideMenu,
             closeCheckoutSideMenu,
             isCheckoutSideMenuOpen,
+            order,
+            setOrder
         }}>
             {children}
         </ShoppingCartContext.Provider>
