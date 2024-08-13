@@ -32,6 +32,9 @@ export const ShoppingCartProvider = ({ children }) => {
 
     //gEt product by title
     const [searchByTitle, setSearchByTitle ] = useState(null)
+    
+    //gEt product by category
+    const [searchByCategory, setSearchByCategory ] = useState(null)
 
 
     useEffect(() => {
@@ -40,15 +43,37 @@ export const ShoppingCartProvider = ({ children }) => {
           .then(data => setItems(data))
       }, [])
 
-    const fireredItemByTitle = (items, searchByTitle) => {
+    const filteredItemByTitle = (items, searchByTitle) => {
         return items?.filter(item => item.title.toLowerCase().includes(searchByTitle.toLowerCase()))
     }
 
-    
+    const filteredItemByCategory = (items, searchByCategory) => {
+        return items?.filter(item => item.category.name.toLowerCase().includes(searchByCategory.toLowerCase()))
+    }
+
+    const filterBy = (searchType, items, searchByTitle, searchByCategory) => {
+        if(searchType === 'BY_TITLE') {
+            return filteredItemByTitle(items, searchByTitle)
+        }
+
+        if(searchType === 'By_CATEGORY') {
+            return filteredItemByCategory(items, searchByCategory)
+        }
+        if(searchType === 'BY_TITLE_AND_CATEGORY') {
+            return filteredItemByCategory(items, searchByCategory).filter(item => item.title.toLowerCase().includes(searchByTitle.toLowerCase()))
+        }
+        if(!searchType ) {
+            return items
+        }
+    }
 
     useEffect(() => {
-        if(searchByTitle) setFiltersItems(fireredItemByTitle(items, searchByTitle))
-    }, [items, searchByTitle])
+        if(searchByTitle && searchByCategory) setFiltersItems(filterBy('BY_TITLE_AND_CATEGORY',items, searchByTitle,searchByCategory))
+        if(searchByTitle && !searchByCategory) setFiltersItems(filterBy('BY_TITLE',items, searchByTitle,searchByCategory))
+        if(!searchByTitle && searchByCategory) setFiltersItems(filterBy('By_CATEGORY',items, searchByTitle,searchByCategory))
+        if(!searchByTitle && !searchByCategory) setFiltersItems(filterBy(null,items, searchByTitle,searchByCategory))
+        
+    }, [items, searchByTitle,searchByCategory])
 
     return(
         <ShoppingCartContext.Provider value={{
@@ -70,7 +95,9 @@ export const ShoppingCartProvider = ({ children }) => {
             setItems,
             searchByTitle,
             setSearchByTitle,
-            filterItems
+            filterItems,
+            searchByCategory,
+            setSearchByCategory
         }}>
             {children}
         </ShoppingCartContext.Provider>
