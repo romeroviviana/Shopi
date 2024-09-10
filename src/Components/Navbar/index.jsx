@@ -10,6 +10,73 @@ function Navbar() {
   const context = useContext(ShoppingCartContext)
 
   const activeItem = "underline underline-offset-4";
+
+  // Sign Out
+  const signOut = localStorage.getItem("sign-out")
+  const parsedSignOut = JSON.parse(signOut)
+  const isUserSignOut = context.signOut || parsedSignOut
+
+  const handleSignOut = () => {
+    const stringifiedSignOut = JSON.stringify(true)
+    localStorage.setItem("sign-out", stringifiedSignOut)
+    context.setSignOut(true)
+  }
+  const renderView = () => {
+    if(isUserSignOut){
+      return(
+        <li>
+          <NavLink
+            to="/sign-in"
+            className={({ isActive }) => isActive ? activeItem : undefined }
+            onClick={() => handleSignOut()}
+          >
+            Sign out
+          </NavLink>
+        </li>
+      )
+    }
+    else {
+      return(
+        <>
+          <li className="text-black">
+            mail@gmail.com
+          </li>
+          <li>
+          <NavLink
+              to='/my-orders'
+              className={({ isActive }) => [
+                isActive ? activeItem : "" ,
+              ]}
+              >
+                My Orders
+            </NavLink>
+          </li>
+          <li>
+          <NavLink
+              to='/my-account'
+              className={({ isActive }) => [
+                isActive ? activeItem : "" ,
+              ]}
+              >
+                My Account
+            </NavLink>
+          </li>
+          <li>
+          <NavLink
+              to='/sign In'
+              className={({ isActive }) => [
+                isActive ? activeItem : "" ,
+              ]}
+              onClick={()=> handleSignOut()}
+              >
+                Sign out
+            </NavLink>
+          </li>
+          
+        </>
+      )
+    }
+  }
     return (
       <nav className="flex justify-between items-center fixed z-10 w-full py-5 px-8 text-sm font-light top-0">
         <ul className="flex item-center gap-3">
@@ -92,39 +159,7 @@ function Navbar() {
         </ul>
 
         <ul className="flex gap-3">
-          <li className="text-black">
-            mail@gmail.com
-          </li>
-          <li>
-          <NavLink
-              to='/my-orders'
-              className={({ isActive }) => [
-                isActive ? activeItem : "" ,
-              ]}
-              >
-                My Orders
-            </NavLink>
-          </li>
-          <li>
-          <NavLink
-              to='/my-account'
-              className={({ isActive }) => [
-                isActive ? activeItem : "" ,
-              ]}
-              >
-                My Account
-            </NavLink>
-          </li>
-          <li>
-          <NavLink
-              to='/sign In'
-              className={({ isActive }) => [
-                isActive ? activeItem : "" ,
-              ]}
-              >
-                Sign In
-            </NavLink>
-          </li>
+          {renderView()}
           <li className='flex items-center gap-1'>
             <ShoppingBagIcon className='h-6 w-6 text-black'/> ({context.count})
           </li>
