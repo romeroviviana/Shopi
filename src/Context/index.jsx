@@ -131,7 +131,8 @@ export const ShoppingCartProvider = ({ children }) => {
             account,
             setAccount,
             signOut,
-            setSignOut
+            setSignOut,
+            initializeLocalStorage
         }}>
             {children}
         </ShoppingCartContext.Provider>

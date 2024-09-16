@@ -7,6 +7,13 @@ const Card = (data) => {
     const context = useContext(ShoppingCartContext)
     let productImage = data.data.images
     //productImage = JSON.parse(productImage)
+    console.log(typeof  productImage == "object")
+
+    if(typeof  productImage == "object"){
+        productImage = JSON.parse(productImage)[0];
+        
+    }
+    
 
     const showProduct = (productDetail) => {
         context.openProductDetail()
@@ -55,7 +62,7 @@ const Card = (data) => {
                 <img src={productImage} alt={data.data.title} className=" w-full h-full object-cover rounded-lg" />
                 {renderIcon(data.data.id)}
             </figure>
-            <p className=" flex justify-between align-middle">
+            <p className=" flex justify-between align-middle items-center">
                 <span className="text-sm font-light">{data.data.title}</span>
                 <span className="text-lg font-medium">${data.data.price}</span>
             </p>
